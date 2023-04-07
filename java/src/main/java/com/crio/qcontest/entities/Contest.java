@@ -1,6 +1,7 @@
 package com.crio.qcontest.entities;
 
 import java.util.List;
+import javax.management.RuntimeErrorException;
 
 public class Contest {
     private final String title;
@@ -30,7 +31,11 @@ public class Contest {
     // 1) Verify if the level of all the questions and contest matches.
     // 2) Throw a Runtime Exception with an appropriate message if above condition is not true.
 
-    private void validateQuestions(List<Question> questions, Level level) {
+    private void validateQuestions(List<Question> questions, Level level) throws RuntimeException {
+        for(Question question : questions){
+            if(!question.getLevel().equals(level))
+                throw new RuntimeException("Invalid Question List");
+        }
     }
 
     public String getTitle() {
@@ -64,6 +69,7 @@ public class Contest {
     // 1) Mark the status of contest as ended.
 
     public void endContest(){
+        this.contestStatus = ContestStatus.ENDED;
     }
 
     @Override
